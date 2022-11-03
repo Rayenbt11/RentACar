@@ -4,6 +4,7 @@
  */
 package ooc.yoursolution;
 
+import java.util.HashMap;
 import java.util.Map;
 import ooc.enums.Make;
 import ooc.enums.Month;
@@ -14,54 +15,85 @@ import ooc.enums.Month;
  */
 public class Car implements CarInterface {
 
+    double rate;
+    Make make;
+    Month month;
+    int id;
+    Map<Month, boolean[]> availabilityMap;
+    boolean[] value;
+
+    public Car() {
+    }
+
     @Override
     public Map<Month, boolean[]> createAvailability() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        availabilityMap = new HashMap<Month, boolean[]>();
+        availabilityMap.put(month, value);
+        return availabilityMap;
     }
 
     @Override
     public Make getMake() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return make;
     }
 
     @Override
     public void setMake(Make make) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.make = make;
     }
 
     @Override
     public double getRate() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return rate;
     }
 
     @Override
     public void setRate(double rate) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.rate = rate;
+
     }
 
     @Override
     public Map<Month, boolean[]> getAvailability() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return this.availabilityMap;
+
     }
 
     @Override
     public void setAvailability(Map<Month, boolean[]> availability) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.availabilityMap = availability;
+
     }
 
     @Override
     public int getId() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return this.id;
     }
 
     @Override
     public boolean isAvailable(Month month, int day) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        boolean available = false;
+        for (int i = 0; i < availabilityMap.size(); i++) {
+            if (availabilityMap.get(i).equals(month)) {
+                for (int j = 0; j < availabilityMap.size(); j++) {
+                    if (availabilityMap.get(i).equals(day)) {
+                        available = true;
+
+                    }
+
+                }
+            }
+        }
+        return available;
+        // i wanted to iterate through the whole map but I knew this is not the way to
     }
 
     @Override
     public boolean book(Month month, int day) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        boolean book = this.isAvailable(month, day);
+        return book;
+        
+
     }
-    
+
 }
