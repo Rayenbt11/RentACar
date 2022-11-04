@@ -4,6 +4,7 @@
  */
 package ooc.yoursolution;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import ooc.enums.Make;
@@ -15,12 +16,10 @@ import ooc.enums.Month;
  */
 public class Car implements CarInterface {
 
-    double rate;
-    Make make;
-    Month month;
-    int id;
-    Map<Month, boolean[]> availabilityMap;
-    boolean[] value;
+    private double rate;
+    private Make make;
+    private int id;
+    private Map<Month, boolean[]> availabilityMap;
 
     public Car() {
     }
@@ -28,7 +27,12 @@ public class Car implements CarInterface {
     @Override
     public Map<Month, boolean[]> createAvailability() {
         availabilityMap = new HashMap<Month, boolean[]>();
-        availabilityMap.put(month, value);
+        for (Month month : Month.values()) {
+            boolean[] monthAvailability = new boolean[month.getNumberOfDays()];
+            Arrays.fill(monthAvailability, true);
+            availabilityMap.put(month, monthAvailability);
+
+        }
         return availabilityMap;
     }
 
@@ -72,27 +76,18 @@ public class Car implements CarInterface {
 
     @Override
     public boolean isAvailable(Month month, int day) {
-        boolean available = false;
-        for (int i = 0; i < availabilityMap.size(); i++) {
-            if (availabilityMap.get(i).equals(month)) {
-                for (int j = 0; j < availabilityMap.size(); j++) {
-                    if (availabilityMap.get(i).equals(day)) {
-                        available = true;
-
-                    }
-
-                }
-            }
-        }
-        return available;
-        // i wanted to iterate through the whole map but I knew this is not the way to
+        boolean[] availability = availabilityMap.get(month);
+        return availability[day];
     }
 
     @Override
     public boolean book(Month month, int day) {
-        boolean book = this.isAvailable(month, day);
-        return book;
-        
+        if (isAvailable(month, day)) {
+            availabilityMap.get(month)[day] = false;
+            return true;
+        } else {
+            return false;
+        }
 
     }
 
