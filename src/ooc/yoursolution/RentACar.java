@@ -17,19 +17,21 @@ public class RentACar implements RentACarInterface {
 
     String name;
 
-    ArrayList<CarInterface> carsList;
+    List<CarInterface> cars;
 
     public RentACar() {
-        carsList = new ArrayList<>();
     }
 
     @Override
     public List<CarInterface> getCars() {
+        cars = new ArrayList<>();
 
+        return cars;
     }
 
     @Override
     public void setCars(List<CarInterface> cars) {
+        this.cars = cars;
 
     }
 
@@ -46,30 +48,64 @@ public class RentACar implements RentACarInterface {
     @Override
     public boolean checkAvailability(Month month, int day, Make make, int lengthOfRent) {
         boolean available = false;
-        for (int i = 0; i < carsList.size(); i++) {
-            if (carsList.get(i).getMake().equals(make)) {
-                if ((carsList.get(i).isAvailable(month, day)) == true) {
-                    available = true;  
+        int test;
+        for (Car car : cars) {
+            if (car.getMake().equals(make)) {
+                test = 0;
+                for (int i = 0; i < lengthOfRent; i++) {
+
+                    if (!car.isAvailable(month, day++)) {
+                        test = 1;
+                        break;
+                    }
+                }
+                if (test == 0) {
+                    available = true;
+
                 }
             }
-
         }
         return available;
+
     }
 
     @Override
     public int getCarAvailable(Month month, int day, Make make, int lengthOfRent) {
+    /* Normally it should be something like this: if (checkAvailability(month, day, make, lengthOfRent) == false) {
+        return car.getID;  but somehow it didn't work so I came up with a less optimal solution
+    }*/
+        int carId = -1;
+        int test;
+        for (Car car : cars) {
+            if (car.getMake().equals(make)) {
+                test = 0;
+                for (int i = 0; i < lengthOfRent; i++) {
 
+                    if (!car.isAvailable(month, day++)) {
+                        test = 1;
+                        break;
+                    }
+                }
+                if (test == 0) {
+                    carId = car.getId();
+                }
+            }
+        }
+
+        return carId;
     }
 
     @Override
     public boolean bookCar(Month month, int day, Make make, int lengthOfRent) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if (checkAvailability(month, day, make, lengthOfRent) == false) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public int getNumberOfCars() {
-        return carsList.size();
+        return cars.size();
     }
 
 }
