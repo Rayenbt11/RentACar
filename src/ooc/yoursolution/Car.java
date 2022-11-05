@@ -21,7 +21,12 @@ public class Car implements CarInterface {
     private int id;
     private Map<Month, boolean[]> availabilityMap;
 
-    public Car(int id,Make make,double rate) {
+    // constructor needed for the bookingSystem class because the text file already contains some information about the car 
+    public Car(int id, Make make, double rate) { 
+        this.id = id;
+        this.make = make;
+        this.rate = rate;
+        createAvailability();
     }
 
     @Override
@@ -31,14 +36,14 @@ public class Car implements CarInterface {
             boolean[] monthAvailability = new boolean[month.getNumberOfDays()];
             Arrays.fill(monthAvailability, true);
             availabilityMap.put(month, monthAvailability);
-
+//At first the car will be available for the whole year so the availability map will have all the month values
         }
         return availabilityMap;
     }
 
     @Override
     public Make getMake() {
-        return make;
+        return make; 
     }
 
     @Override
@@ -78,6 +83,7 @@ public class Car implements CarInterface {
     public boolean isAvailable(Month month, int day) {
         boolean[] availability = availabilityMap.get(month);
         return availability[day];
+        // checks the submitted month if it's available and then the day, returns true if it's available and false if it's not
     }
 
     @Override
@@ -88,7 +94,7 @@ public class Car implements CarInterface {
         } else {
             return false;
         }
-
+// check from the previous isAvailable by putting the month and the day
     }
 
 }
