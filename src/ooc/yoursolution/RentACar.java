@@ -19,12 +19,14 @@ public class RentACar implements RentACarInterface {
 
     List<CarInterface> cars;
 
-    public RentACar() {
+    public RentACar(String name, List<CarInterface> cars) {
+        this.name = name;
+        this.cars = cars;
+
     }
 
     @Override
     public List<CarInterface> getCars() {
-        cars = new ArrayList<>();
 
         return cars;
     }
@@ -49,7 +51,7 @@ public class RentACar implements RentACarInterface {
     public boolean checkAvailability(Month month, int day, Make make, int lengthOfRent) {
         boolean available = false;
         int test;
-        for (Car car : cars) {
+        for (CarInterface car : cars) {
             if (car.getMake().equals(make)) {
                 test = 0;
                 for (int i = 0; i < lengthOfRent; i++) {
@@ -71,12 +73,12 @@ public class RentACar implements RentACarInterface {
 
     @Override
     public int getCarAvailable(Month month, int day, Make make, int lengthOfRent) {
-    /* Normally it should be something like this: if (checkAvailability(month, day, make, lengthOfRent) == false) {
+        /* Normally it should be something like this: if (checkAvailability(month, day, make, lengthOfRent) == false) {
         return car.getID;  but somehow it didn't work so I came up with a less optimal solution
     }*/
         int carId = -1;
         int test;
-        for (Car car : cars) {
+        for (CarInterface car : cars) {
             if (car.getMake().equals(make)) {
                 test = 0;
                 for (int i = 0; i < lengthOfRent; i++) {
