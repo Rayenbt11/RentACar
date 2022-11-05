@@ -21,7 +21,7 @@ public class Car implements CarInterface {
     private int id;
     private Map<Month, boolean[]> availabilityMap;
 
-    public Car() {
+    public Car(int id,Make make,double rate) {
     }
 
     @Override
